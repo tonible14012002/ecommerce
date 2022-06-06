@@ -1,0 +1,21 @@
+{% extends 'account/main.html' %}
+
+{% block title %}Customer info{% endblock %}
+
+{% block content %}
+
+    <ul>
+    {% for error in form.errors%}
+        <li>{{error}}</li>
+    {% endfor %}        
+    </ul>
+
+
+    <div>
+        <form id="edit-info-form" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button>Submit</button>
+        </form>
+    </div>
+{% endblock %}

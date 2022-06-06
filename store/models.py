@@ -44,13 +44,12 @@ class Product(models.Model):
         
     def get_absolute_url(self):
         return reverse(
-            'store:products_list',
+            'store:product_detail',
             args=[
                 self.pk,
                 self.slug
             ]
         )
-
 
 class Category(models.Model):
     name = models.CharField(max_length=50)

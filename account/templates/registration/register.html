@@ -1,0 +1,14 @@
+{% extends 'account/main.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+    <div>
+        <form id="register-form" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button>Submit</button>
+        </form>
+    </div>
+{% endblock %}

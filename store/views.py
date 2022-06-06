@@ -10,17 +10,11 @@ from .models import *
 def home(request):
     return HttpResponse('Home page for store')
 
-class ProductListView(ListView):
-    model = Product
-    template_name = 'store/product_list.html'
-    context_object_name = 'products'
-    queryset: Product.objects.all()
-
-def ProductList(request, category_slug=None):
+def product_list(request, category_slug=None):
     if category_slug:
         products = Product.is_available.filter(categories__slug=category_slug)
         if not products.count():
-            products = []
+            products = None
     else:
         products = Product.is_available.all()
     context = {'products' : products}
