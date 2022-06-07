@@ -16,11 +16,8 @@ class ProductsApiView(generics.ListAPIView):
 @api_view(['GET'])
 def product_list(request, category_slug=None):
     if category_slug:
-        products = Product.is_available.filter(
-            categories__slug=category_slug
-            )
-        if not products.count():
-            products = None
+        category = Category.objects.get(slug=category_slug)
+        products = category.products.all()
     else:
         products = Product.is_available.all()
     serializer = ProductSerializer(products, many=True)
