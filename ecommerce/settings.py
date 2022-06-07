@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'account',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +43,7 @@ INSTALLED_APPS = [
     # apps
     'api',
     'store',
-    'account',
+
     'cart',
     
     
@@ -132,3 +133,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Cart
+CART_SESSION_ID = 'cart'
+
+# authentication
+LOGIN_URL = 'account:login'
+LOGIN_REDIRECT_URL = 'store:products_list'

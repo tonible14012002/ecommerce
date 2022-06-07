@@ -2,7 +2,6 @@ from dataclasses import field
 from pyexpat import model
 from django import forms
 from django.contrib.auth import get_user_model
-
 from account.models import CustomerInfo
 
 User = get_user_model()
@@ -47,3 +46,5 @@ class CustomerInfoForm(forms.ModelForm):
     class Meta:
         model = CustomerInfo
         fields = ['phone', 'address', 'city', 'country']
+
+# class PasswordResetConfirmForm()
