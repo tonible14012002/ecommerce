@@ -3,10 +3,87 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="hidden" name="next" value="{{next}}">
-        <input type="submit" value="Submit">
-    </form>
+    <div class="content__form">
+        <div class="form-container">
+            <form method="POST" id="login-form" class="form">
+                {% csrf_token %}
+                <h1 class="form__title">Login</h1>
+                {% for field in form %}
+                <div class="form__group">
+                    <label for="{{field.id_for_label}}">{{field.label}}</label>
+                    <input id="{{field.id_for_label}}" type="{{field.field.widget.input_type}}" name="{{field.name}}">
+                    <span class="form__message"></span>
+                    <span class="form__error"></span>
+                </div>
+                {% endfor %}
+                <input type="hidden" name="next" value="{{next}}">
+                <button type="submit" class="form__button" id="form__login">Login</button>
+                <p class="form__link"><a href="{% url 'account:password_reset' %}"> Forgot your password ?</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        success_url ="{{next}}" || "{% url 'store:products_list' %}"
+        validator({
+            formSelector:'#login-form',
+            errorSelector:'.form__message',
+            errorClass: 'invalid',
+            ruleOptions: [
+                validator.isRequired('#id_username', 'This field is required'),
+                validator.minLength('#id_username', 5, 'At least 5 character length'),
+                validator.isRequired('#id_password', 'This field is requuired'),
+                validator.minLength('#id_password', 8, 'Input at least 8 characters')
+            ],
+            onSubmit: (data) => {
+                console.log("{{request.user}}")
+                fetchAPI({
+                    url: "{% url 'account:login_user' %}",
+                    requestInit:{
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'content-type': 'application/json; charset=utf-8',
+                            'X-CSRFtoken': csrftoken,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        origin: 'same-origin'
+                    },
+                    onSuccess: (data) => {
+                        switch(data.status){
+                            case 'ok':
+                                location.replace(success_url)
+                                break
+                            case 'inactive':
+                                handleInactivatedAccount()
+                                break
+                            case 'error':
+                                toast({
+                                    containerSelector: '#toast',
+                                    title: 'Login faild',
+                                    body: 'Your username or password is incorrect',
+                                    type: 'error',
+                                    duration: 5000
+                                })
+                                break
+                        }
+                    },
+                    onError(error) {
+                        toast({
+                            containerSelector: '#toast',
+                            title: error.status,
+                            body: error.statusText,
+                            type: 'error',
+                            duration: 5000
+                        })
+                    }
+                })
+            }
+        })
+    </script>
+
+    <script>
+        
+    </script>
+
 {% endblock %}

@@ -129,6 +129,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / 'account' / 'static',
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -141,3 +145,12 @@ CART_SESSION_ID = 'cart'
 # authentication
 LOGIN_URL = 'account:login'
 LOGIN_REDIRECT_URL = 'store:products_list'
+
+
+# Email host
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'co.tonytech@gmail.com'
+EMAIL_HOST_PASSWORD = '71102Tony'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
