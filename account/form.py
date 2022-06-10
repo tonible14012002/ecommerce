@@ -19,7 +19,7 @@ class RegistrationForm(forms.ModelForm):
                                        label='Password confirm')
     
     def clean_password_confirm(self):
-        password_confirm = self.cleaned_data['password']
+        password_confirm = self.cleaned_data['password_confirm']
         if password_confirm != self.cleaned_data['password']:
             raise forms.ValidationError('password confirm does not match.')
         return password_confirm
@@ -47,4 +47,8 @@ class CustomerInfoForm(forms.ModelForm):
         model = CustomerInfo
         fields = ['phone', 'address', 'city', 'country']
 
+class LoginForm(forms.Form):
+    username = forms.CharField(min_length=5, label='Username or email address')
+    password = forms.CharField(min_length=8,label='password', widget=forms.PasswordInput)
+    
 # class PasswordResetConfirmForm()

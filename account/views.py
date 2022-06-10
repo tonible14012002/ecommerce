@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 
 from account.decorator import ajax_required
 from .models import CustomerInfo
-from .form import RegistrationForm, CustomerInfoForm
+from .form import RegistrationForm, CustomerInfoForm, LoginForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, SetPasswordForm
@@ -27,6 +27,12 @@ from account import form
 # Create your views here.
 
 User = get_user_model()
+
+def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('store:products_list')
+    form = LoginForm()
+    return render(request, 'registration/login.html', {'form': form })
 
 @ajax_required
 @require_http_methods(['POST'])
@@ -195,9 +201,9 @@ def account_activation(request, uidb64, token):
 @require_http_methods(['POST'])
 def account_activation_request(request):
     user_info = json.loads(request.body)
+    print(user_info)
     try:
-        user = User.objects.get(username=user_info['username'],
-                            password=user_info['password'])
+        user = User.objects.get(username=user_info['username'])
     except User.DoesNotExist:
         user = None
     if user is not None:

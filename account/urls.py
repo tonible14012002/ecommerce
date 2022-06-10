@@ -6,7 +6,7 @@ from . import views
 
 app_name = 'account'
 urlpatterns = [
-    path('login/', auth_views.LoginView.as_view(), name='login') ,
+    path('login/', views.login_page, name='login') ,
     path('login_user/',views.login_user, name='login_user'),
     path('logout/', auth_views.LogoutView.as_view(next_page=reverse_lazy('account:login')), name='logout'),
     path('password-change/', views.password_change_form,name='password_change'),
@@ -18,5 +18,6 @@ urlpatterns = [
     path('register/', views.register_page, name='register'),
     path('register/request', views.register_request, name='register_request'),
     path('activate/<uidb64>/<token>', views.account_activation, name='account_activation'),
+    path('activate/', views.account_activation_request, name='account_activation_request'),
     path('add-info/', views.add_info, name='add_info')
 ]

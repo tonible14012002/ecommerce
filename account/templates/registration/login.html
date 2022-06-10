@@ -16,7 +16,6 @@
                     <span class="form__error"></span>
                 </div>
                 {% endfor %}
-                <input type="hidden" name="next" value="{{next}}">
                 <button type="submit" class="form__button" id="form__login">Login</button>
                 <p class="form__link"><a href="{% url 'account:password_reset' %}"> Forgot your password ?</a></p>
             </form>
@@ -24,7 +23,9 @@
     </div>
 
     <script>
-        success_url ="{{next}}" || "{% url 'store:products_list' %}"
+        const params = new URLSearchParams(window.location.search)
+        var next = params.get('next')
+        success_url = next   || "{% url 'store:products_list' %}"
         validator({
             formSelector:'#login-form',
             errorSelector:'.form__message',
@@ -49,13 +50,13 @@
                         },
                         origin: 'same-origin'
                     },
-                    onSuccess: (data) => {
-                        switch(data.status){
+                    onSuccess: (repsData) => {
+                        switch(repsData.status){
                             case 'ok':
                                 location.replace(success_url)
                                 break
                             case 'inactive':
-                                handleInactivatedAccount()
+                                handleInactivatedAccount(data)
                                 break
                             case 'error':
                                 toast({
@@ -71,8 +72,8 @@
                     onError(error) {
                         toast({
                             containerSelector: '#toast',
-                            title: error.status,
-                            body: error.statusText,
+                            title: error.status || 'error',
+                            body: error.statusText || error,
                             type: 'error',
                             duration: 5000
                         })
@@ -83,7 +84,69 @@
     </script>
 
     <script>
-        
+        function handleInactivatedAccount (data) {
+            var sendMail = document.createElement('div')
+            sendMail.classList.add('form')
+            sendMail.innerHTML = `
+            <h1 class="form__title">Account activation</h1>
+            <p>Your account have not activated yet. Click button below for resend an email.</p>
+            <button>Send</button>
+            `
+            replace({
+                targetSelector: '#login-form',
+                replaceElement: sendMail
+            })
+
+            var sendBtn = sendMail.querySelector('button')
+            sendBtn.onclick = (e) => {
+                e.preventDefault()
+                console.log(data)
+                fetchAPI({
+                    url : "{% url 'account:account_activation_request' %}",
+                    requestInit: {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers : {
+                            'content-type': 'application/json; charset=utf-8',
+                            'X-CSRFtoken': csrftoken,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        origin: 'same-origin'
+                    },
+                    onSuccess: (repsData) => {
+                        switch(repsData.status) {
+                            case 'ok':
+                                toast({
+                                    containerSelector: '#toast',
+                                    title: 'Email sent',
+                                    body: 'Please check your email account',
+                                    type: 'success',
+                                    duration: 5000
+                                })
+                                break
+                            case 'error':
+                                toast({
+                                    containerSelector: '#toast',
+                                    title: 'Error',
+                                    body: 'Account not found, try login again',
+                                    type: 'error',
+                                    duration: 5000
+                                })
+                                break
+                        }
+                    },
+                    onError: (error) => {
+                        toast({
+                            containerSelector: '#toast',
+                            title: error.status || 'error',
+                            body: error.statusText || error,
+                            type: 'error',
+                            duration: 5000
+                        })
+                    }
+                })
+            }
+        }
     </script>
 
 {% endblock %}
