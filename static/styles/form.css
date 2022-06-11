@@ -108,17 +108,3 @@
     font-weight: 700;
     color: var(--form-link);
 }
-
-
-/* toast container */
-#toast {
-    position: absolute;
-    right: 10px;
-    top: 70px;
-    display: flex;
-    flex-direction: column;
-}
-
-.toast__item {
-    background-color: var(--toast-background);
-}

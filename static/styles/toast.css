@@ -13,7 +13,7 @@
 
 #toast {
     position: fixed;
-    z-index: 3;
+    z-index: 10000;
     right: 20px;
     top: 80px;
     display: flex;
