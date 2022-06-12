@@ -1,22 +1,23 @@
-<div class="product-card">
-    <div class="badge">Hot</div>
-    <div class="product-tumb">
-        <img src="https://i.imgur.com/xdbHo4E.png" alt="">
-    </div>
-    <div class="product-details">
-        <span class="product-catagory">
-            {% for category in product.categories.all %}
-            <a href="{{category.get_absolute_url}}">{{category}},</a>
-            {% endfor %}
-        </span>
-        <h4><a href="{{product.get_absolute_url}}">{{product|truncatechars:30}}</a></h4>
-        <p>{{product.description|truncatechars:50}}</p>
-        <div class="product-bottom-details">
-            <div class="product-price">${{product.price}}</div>
-            <div class="product-links">
-                <a href="{{product.get_absolute_url}}">Detail</a>
-                <button onclick="alert()" class="add-product-btn"><i class="fa-solid fa-cart-plus"></i></button>
+
+<div class="col-md-6 col-lg-4 col-xl-3">
+    <div id="product-{{product.pk}}" class="single-product">
+            <div class="part-1">
+                    <ul>
+                            <li><a href="{{product.get_absolute_url}}"><i class="fa-solid fa-info"></i></a></li>
+                            <li><a href="#"><i class="fas fa-plus"></i></a></li>
+                            <li><a href="#"><i class="fas fa-expand"></i></a></li>
+                    </ul>
             </div>
-        </div>
+            <div class="part-2">
+                    <h3 class="product-title"><a style="text-decoration:none; color:#505050;" href="{{product.get_absolute_url}}">{{product|truncatewords:10}}</a></h3>
+                    <h4 style="font-weight: 700;  color:#de6363;" class="product-price">${{product.price}}</h4>
+            </div>
     </div>
 </div>
+
+{% with product.images.all|first as image %}
+<script>
+        console.log('has image')
+        document.styleSheets[0].addRule(".section-products #product-{{product.pk}} .part-1::before", 'background: url("{{image.image.url}}") no-repeat center;', 0);
+</script>
+{% endwith %}

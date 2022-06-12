@@ -3,20 +3,36 @@
 {% block title %}Store{% endblock %}
 
 {% block content %}
+    <section class="section-products">
+        <div class="container">
+                <div class="row justify-content-center text-center">
+                        <div class="col-md-8 col-lg-6">
+                                <div class="header">
+                                    {% if category_slug %}
+                                        <h3>Featured Product</h3>
+                                        <h2>{{category_name}}</h2>
+                                    {% else %}
+                                        <h3>Featured Product</h3>
+                                        <h2>All collections</h2>
+                                    {% endif %}
+                                </div>
+                        </div>
+                </div>
+                <div class="row" id="products-list">
+                    {% include 'store/show_products.html' with products=products  %}
+                </div>
+        </div>
+    </section>
 
-    <div id="products-container">
-        {% include 'store/show_products.html' with products=products  %}
-    </div>
-
+    {% if num_pages > 1 %}
     <div>
         <button id="more-btn">More</button>
     </div>
 
     <script>
-        console.log("{{page_count}}")
         var nextPage = 2   
         const moreBtn = document.getElementById('more-btn')
-        const productsContainer = document.getElementById('products-container')
+        const productsContainer = document.getElementById('products-list')
 
         moreBtn.onclick = (e) => {
             e.preventDefault()
@@ -26,6 +42,7 @@
             "{% else %}"
             url = `{% url 'store:get_more_products' %}?page=${nextPage}`
             "{% endif %}"
+
             fetchAPI({
                 url: url,
                 requestInit: {
@@ -56,12 +73,12 @@
                 }
             })
             function updateBtn(success) {
-                if (nextPage >= Number("{{page_count}}"))
+                if (nextPage >= Number("{{num_pages}}"))
                     moreBtn.remove()
                 if (success)
                     nextPage += 1
             }
         }
     </script>
-
+    {% endif %}
 {% endblock %}

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 
 
-def get_name(self):
+def get_full_name(self):
     name = ''
     if self.first_name:
         name = self.first_name
@@ -11,6 +11,13 @@ def get_name(self):
         name += ' ' + self.last_name.strip()
     if name:
         return name
+    return self.username
+
+def get_name(self):
+    if self.last_name:
+        return self.last_name
+    if self.first_name:
+        return self.first_name
     return self.username
 
 get_user_model().add_to_class('get_name', get_name)

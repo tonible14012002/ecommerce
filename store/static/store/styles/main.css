@@ -1,4 +1,6 @@
-
+* {
+    text-decoration: none;
+}
 #products-container {
     display: flex;
     gap: 10px;
@@ -6,3 +8,4 @@
     justify-content: flex-start;
     align-items: flex-start;
 }
+

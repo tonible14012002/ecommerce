@@ -1,98 +1,53 @@
 {% load static %}
+{% load custom_tag %}
 
-<head>
-    <link rel="stylesheet" href="{% static 'styles/navbar.css' %}">
-</head>
+<div id="header" style="position: fixed; width: 100%; top: 0; z-index:3;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <!-- add home page link -->
+          <a class="navbar-brand" href="#">Ecommerce</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                          <!-- add home page link -->
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Categories
+                </a>
+                {% categories_dropdown %}
+              </li>
 
-<div id="header">
-    <nav class="nav">
-        <ul class="nav__list">
-            <li class="nav__item"><a href="{% url 'store:products_list' %}">Shop</a></li>
-            <li class="nav__item"><a href="">Contact</a></li>
-            <li class="nav__item"><a href="">Category</a></li>
-        </ul>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Account
+                </a>
+                <!--  -->
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% if request.user.is_authenticated %}
+                      <li class="dropdown-item">Welcome {{request.user.get_name}}</li>
+                      <hr class="dropdown-divider">
+                      <li><a class="dropdown-item" href="{% url 'account:register' %}">Profile</a></li>
+                      <li><a class="dropdown-item" href="{% url 'account:logout' %}">Logout</a></li>
+                      <li><a class="dropdown-item" href="{% url 'account:register' %}">Register</a></li>
 
-        <ul class="nav__list">
-            <li id="nav__logo" class="nav__item"><a>ESHOP</a></li>
-        </ul>
-
-        <div class="nav__options">
-            <ul class="nav__list">
-                <li>
-                    <form method="GET">
-                    <div class="search-box">
-                            <input type="text" name="search" class="search-txt">
-                            <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    </div>
-                    </form>
-                </li>
-                <li>
-                    <ul class="nav__list">
-                        <li><a class="user_avatar" href="#"><i class="fa-regular fa-user"></i></a></li>
-                        <li class="subnav_conatainer">
-                            {% if request.user.is_authenticated %}
-                                <span data-selector="#subnav" id="subnav-btn"><a>{{request.user.get_name}} <i class="fa-solid fa-caret-down"></i></a></span>
-                                <ul class="subnav" id="subnav">
-                                    <li class="subnav__item">
-                                        <a class="icon__group" href="">
-                                        <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                        <span>Cart</span>
-                                        </a>
-                                    </li>
-
-                                    <li class="subnav__item">
-                                        <a class="icon__group" href="{% url 'account:logout' %}">
-                                            <div class="icon"><i class="fa-solid fa-right-from-bracket"></i></div>
-                                            <span>Logout</span>
-                                        </a>
-                                    </li>
-
-                                    <li class="subnav__item">
-                                        <a class="icon__group" href="{% url 'account:register' %}">
-                                            <div class="icon"><i class="fa-regular fa-address-card"></i></div>
-                                            <span>Sign up</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            {% else %}
-                            <span data-selector="#subnav" id="subnav-btn"><a>Guest <i class="fa-solid fa-caret-down"></i></a></span>
-                            <ul class="subnav" id="subnav">
-                                <li class="subnav__item">
-                                    <a class="icon__group" href="">
-                                    <div class="icon"><i class="fa-solid fa-cart-shopping"></i></div>
-                                    <span>Cart</span>
-                                    </a>
-                                </li>
-
-                                <li class="subnav__item">
-                                    <a class="icon__group" href="{% url 'account:logout' %}">
-                                        <div class="icon"><i class="fa-solid fa-right-from-bracket"></i></div>
-                                        <span>Login</span>
-                                    </a>
-                                </li>
-
-                                <li class="subnav__item">
-                                    <a class="icon__group" href="{% url 'account:register' %}">
-                                        <div class="icon"><i class="fa-regular fa-address-card"></i></div>
-                                        <span>Sign up</span>
-                                    </a>
-                                </li>
-                            </ul>
-                            {% endif %}
-                        </li>
-                    </ul>
-                </li>
+                    {% else %}
+                    <li><a class="dropdown-item" href="{% url 'account:logout' %}">Login</a></li>
+                    <li><a class="dropdown-item" href="{% url 'account:register' %}">Register</a></li>
+                    {% endif %}
+                  </ul>
+              </li>
+              <li class="nav-item"><a class="nav-link" role="button">Cart</a></li>
             </ul>
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
         </div>
-    </nav>
+      </nav>
 </div>
-
-
-<script>
-    const navbar_toggle = document.querySelector('#subnav-btn')
-    const navbar = document.querySelector(navbar_toggle.dataset.selector)
-
-    navbar_toggle.onclick = function () {
-        navbar.classList.toggle('active')
-    }
-</script>

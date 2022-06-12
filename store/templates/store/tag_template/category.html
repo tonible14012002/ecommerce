@@ -1,6 +1,0 @@
-<div class="sidebar">
-    <div><a href="{% url 'store:products_list' %}">All</a></div>
-    {% for category in categories %}
-    <div><a href="{{category.get_absolute_url}}">{{category}}</a></div>
-    {% endfor %}    
-</div>

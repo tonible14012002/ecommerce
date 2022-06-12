@@ -13,3 +13,8 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['available', 'create', 'update']
     list_editable = ['price', 'available']
     prepopulated_fields = {'slug':('name',)}
+    
+@admin.register(Image)
+class ImagesAdmin(admin.ModelAdmin):
+    list_display = ['image', 'product']
+    list_filter = ['product']

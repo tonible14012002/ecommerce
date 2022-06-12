@@ -13,18 +13,19 @@ from django.views.decorators.http import require_http_methods
 # Create your views here.
 
 def products_list(request, category_slug=None):
-
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
+        category_name = category.__str__()
         products = category.products.all()
     else:
         products = Product.objects.all()
+        category_name = None
 
-    paginator = Paginator(products, 3)
+    paginator = Paginator(products, 6)
     page = paginator.page(1)
     products = page.object_list
 
-    context = {'products' : products, 'page_count': paginator.count, 'category_slug':category_slug}
+    context = {'products' : products, 'num_pages': paginator.num_pages, 'category_slug':category_slug, 'category_name':category_name}
     return render(request, 'store/product_list_page.html', context)
 
 @ajax_required
@@ -36,7 +37,7 @@ def get_more_products(request, category_slug=None):
         products = category.products.all()
     else:
         products = Product.objects.all()
-    paginator = Paginator(products, 3)
+    paginator = Paginator(products, 6)
     page = request.GET.get('page')
 
     try:
@@ -44,7 +45,6 @@ def get_more_products(request, category_slug=None):
     except (PageNotAnInteger, EmptyPage):
         return HttpResponse('')
     return render(request, 'store/show_products.html', {'products':products})
-
 
 @login_required
 def product_detail(request, id, product_slug=None):

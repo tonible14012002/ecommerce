@@ -1,4 +1,7 @@
 
+from distutils.command.upload import upload
+from email.policy import default
+from tokenize import blank_re
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
@@ -20,6 +23,8 @@ class Product(models.Model):
     slug = models.SlugField(max_length=200, db_index=True)
     available = models.BooleanField(default=True)
 
+    stock = models.PositiveIntegerField(default=0)
+    
     objects = models.Manager()
     is_available = AvailableManager()
 
@@ -43,6 +48,15 @@ class Product(models.Model):
             ]
         )
 
+class Image(models.Model):
+    image = models.ImageField(upload_to='products/%y/%m/%d', blank=True)
+    product = models.ForeignKey(Product,
+                                on_delete=models.CASCADE,
+                                related_name='images')
+    create = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['create']
+    
 class Category(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
