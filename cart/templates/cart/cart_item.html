@@ -1,0 +1,6 @@
+<div class="cart-item">
+    <h4><a href="{{item.product.get_absolute_url}}">{{item.product|truncatewords:25}}</a></h4>
+    <p>quantity: {{item.quantity}}</p>
+    <p>price: {{item.total_price}}</p>
+</div>
+<hr>

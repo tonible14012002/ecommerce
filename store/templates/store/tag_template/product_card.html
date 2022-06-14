@@ -1,4 +1,4 @@
-
+{% load static %}
 <div class="col-md-6 col-lg-4 col-xl-3">
     <div id="product-{{product.pk}}" class="single-product">
             <div class="part-1">
@@ -15,9 +15,14 @@
     </div>
 </div>
 
-{% with product.images.all|first as image %}
 <script>
+"{% if not product.images.exists %}"
+        document.styleSheets[0].addRule(".section-products #product-{{product.pk}} .part-1::before", `background: url("{% static 'store/images/no-image.jpg' %}") no-repeat center;`, 0);
+"{% else %}"
+        "{% with product.images.all|first as image %}"
         console.log('has image')
         document.styleSheets[0].addRule(".section-products #product-{{product.pk}} .part-1::before", 'background: url("{{image.image.url}}") no-repeat center;', 0);
+        "{% endwith %}"
+"{% endif %}"
 </script>
-{% endwith %}
+

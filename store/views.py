@@ -10,6 +10,7 @@ from pkg_resources import require
 from .models import *
 from account.decorator import ajax_required
 from django.views.decorators.http import require_http_methods
+from cart.form import CartAddProductForm
 # Create your views here.
 
 def products_list(request, category_slug=None):
@@ -47,8 +48,9 @@ def get_more_products(request, category_slug=None):
     return render(request, 'store/show_products.html', {'products':products})
 
 @login_required
-def product_detail(request, id, product_slug=None):
-    product = get_object_or_404(Product, pk=id)
-    return render(request, 'store/product_detail.html',{'product':product})
+def product_detail(request, pk, product_slug=None):
+    form = CartAddProductForm()
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'store/product_detail.html',{'product':product, 'form':form})
 
 

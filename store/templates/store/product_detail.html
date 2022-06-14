@@ -3,16 +3,78 @@
 {% block title %}Detail{% endblock %}
 
 {% block content %}
-<h2>{{product}}</h2>
-<p>Categories:</p>
-<ul>
-    {% for category in product.categories.all %}
-    <li><a href="{{category.get_absolute_url}}">{{category}}</a></li>
-    {% endfor %}
-</ul>
-<ul>
-    <li><h3>Price: {{product.price}}</h3></li>
-</ul>
-<p>{{product.description|linebreaks}}</p>
+<div style="grid-template-columns: 3fr 1fr; display: grid;">
+    <div>
+        <h2>{{product}}</h2>
+        <p>Categories:</p>
+        <ul>
+            {% for category in product.categories.all %}
+            <li><a href="{{category.get_absolute_url}}">{{category}}</a></li>
+            {% endfor %}
+        </ul>
+        <ul>
+            <li><h3>Price: {{product.price}}</h3></li>
+        </ul>
+        <p>{{product.description|linebreaks}}</p>
 
+    </div>
+    <div>
+        <form id="cart-add-form"  method="POSt">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit">
+        </form>
+    </div>    
+</div>
+
+<script>
+    var url = "{% url 'cart:cart_add' product.pk %}"
+    var form = document.getElementById('cart-add-form')
+    var formData = new FormData(form)
+
+    form.onsubmit = (e) => {
+        e.preventDefault()
+        fetchAPI({
+            url: url,
+            requestInit: {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFtoken': csrftoken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                origin: 'same-origin',
+            },
+            onSuccess: (data) => {
+                if (data.status == 'ok'){
+                    toast({
+                        containerSelector: '#toast',
+                        title: 'Added',
+                        body: 'product was added to your cart',
+                        type: 'success',
+                        duration: 9000
+                    })
+                }
+                else {
+                    toast({
+                        containerSelector: '#toast',
+                        title: 'Add failed',
+                        body: 'Error while adding to your cart',
+                        type: 'error',
+                        duration: 9000
+                    })
+                }
+            },
+            onError: (error) => {
+                toast({
+                    containerSelector: '#toast',
+                    title: error.status || 'error',
+                    body: error.statusText || error,
+                    type: 'error',
+                    duration: 5000
+                })
+            }
+        })
+    }
+</script>
 {% endblock %}

@@ -41,7 +41,7 @@
                     {% endif %}
                   </ul>
               </li>
-              <li class="nav-item"><a class="nav-link" role="button">Cart</a></li>
+              <li id="cart-btn" class="nav-item"><a class="nav-link" role="button">Cart</a></li>
             </ul>
             <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -51,3 +51,49 @@
         </div>
       </nav>
 </div>
+
+<div id="cart-container" style="display: none; position:fixed; right: 0; top:70px; background:white;">
+  <div id="cart"></div>
+  <button>close</button>
+</div>
+
+<script>
+  var cartBtn = document.getElementById('cart-btn')
+  var cart = document.getElementById('cart')
+  var cart_container = document.getElementById('cart-container')
+  var cartCloseBtn = cart_container.querySelector('button')
+  
+  cartCloseBtn.onclick = (e) => {
+    e.preventDefault()
+    cart_container.style.display = "none"
+  }
+
+  cartBtn.onclick = (e) => {
+    e.preventDefault()
+    cart_container.style.display = "block"
+    fetchAPI({
+      url: "{% url 'cart:cart_detail' %}",
+      requestInit: {
+          method: 'GET',
+          headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+          },
+      },
+      onSuccess: (data) => {
+          if (data) {
+            cart.innerHTML = ""
+            cart.insertAdjacentHTML("beforeend",data)
+          }
+      },
+      onError: (error) => {
+          toast({
+              containerSelector: '#toast',
+              title: error.status || 'error',
+              body: error.statusText || error,
+              type: 'error',
+              duration: 5000
+          })
+      }
+    })
+  }
+</script>
