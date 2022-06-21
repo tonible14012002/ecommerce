@@ -1,5 +1,24 @@
-<div class="cart">
-    {% for item in cart %}
-    {% include 'cart/cart_item.html' %}
-    {% endfor %}
-</div>
+
+
+    <section class="h-100 h-custom" style="background-color: #eee;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body p-4">
+
+                            <div class="row">
+            
+                                    {% for item in cart %}
+                                    {% include 'cart/cart_item.html' %}
+                                    {% endfor %}
+
+                            </div>
+            
+                        </div>
+        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

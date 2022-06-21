@@ -19,9 +19,9 @@
 
     </div>
     <div>
-        <form id="cart-add-form"  method="POSt">
+        <form id="cart-add-form"  method="POST">
             {% csrf_token %}
-            {{form}}
+            {{form.as_p}}
             <input type="submit">
         </form>
     </div>    

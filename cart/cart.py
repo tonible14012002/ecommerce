@@ -21,7 +21,7 @@ class Cart():
         if product_pk not in self.cart:
             self.cart[product_pk] = {'quantity': 0, 'price': str(product.price)}
             
-        if update_quantity:
+        if not update_quantity:
             self.cart[product_pk]['quantity'] += quantity
         else:
             self.cart[product_pk]['quantity'] = quantity

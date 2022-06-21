@@ -133,6 +133,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     BASE_DIR / 'account' / 'static',
     BASE_DIR / 'store' / 'static',
+    BASE_DIR / 'cart' / 'static', 
     
 ]
 # Media files

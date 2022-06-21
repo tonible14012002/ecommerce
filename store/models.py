@@ -24,6 +24,7 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
 
     stock = models.PositiveIntegerField(default=0)
+    photo = models.ImageField(upload_to='products/%y/%m/%d', blank=True)
     
     objects = models.Manager()
     is_available = AvailableManager()

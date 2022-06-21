@@ -21,14 +21,16 @@
                 <div class="row" id="products-list">
                     {% include 'store/show_products.html' with products=products  %}
                 </div>
+                {% if num_pages > 1 %}
+                <div class="list-footer">
+                    <button id="more-btn" class="btn btn-outline-dark btn-rounded">More</button>
+                </div>
+
+                {% endif %}
         </div>
     </section>
 
     {% if num_pages > 1 %}
-    <div>
-        <button id="more-btn">More</button>
-    </div>
-
     <script>
         var nextPage = 2   
         const moreBtn = document.getElementById('more-btn')

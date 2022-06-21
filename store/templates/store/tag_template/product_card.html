@@ -15,14 +15,16 @@
     </div>
 </div>
 
-<script>
-"{% if not product.images.exists %}"
-        document.styleSheets[0].addRule(".section-products #product-{{product.pk}} .part-1::before", `background: url("{% static 'store/images/no-image.jpg' %}") no-repeat center;`, 0);
-"{% else %}"
-        "{% with product.images.all|first as image %}"
-        console.log('has image')
-        document.styleSheets[0].addRule(".section-products #product-{{product.pk}} .part-1::before", 'background: url("{{image.image.url}}") no-repeat center;', 0);
-        "{% endwith %}"
-"{% endif %}"
-</script>
-
+{% if product.photo %}
+<style>
+        .section-products #product-{{product.pk}} .part-1::before {
+        background: url("{{product.photo.url}}") no-repeat center;                
+        }
+</style>
+{% else %}
+<style>
+        .section-products #product-{{product.pk}} .part-1::before {
+        background: url("{% static 'store/images/no-image.jpg' %}") no-repeat center;
+        }                      
+</style>
+{% endif %}
