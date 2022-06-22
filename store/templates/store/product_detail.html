@@ -21,21 +21,22 @@
     <div>
         <form id="cart-add-form"  method="POST">
             {% csrf_token %}
-            {{form.as_p}}
+            {{form}}
             <input type="submit">
         </form>
     </div>    
 </div>
 
 <script>
-    var url = "{% url 'cart:cart_add' product.pk %}"
     var form = document.getElementById('cart-add-form')
-    var formData = new FormData(form)
 
+    var formData = new FormData()
     form.onsubmit = (e) => {
         e.preventDefault()
+        formData.append('quantity', form.querySelector('input[name="quantity"]').value)
+        formData.append('update', form.querySelector('input[name="update"]').value)
         fetchAPI({
-            url: url,
+            url:  "{% url 'cart:cart_add' product.pk %}",
             requestInit: {
                 method: 'POST',
                 body: formData,
@@ -54,6 +55,7 @@
                         type: 'success',
                         duration: 9000
                     })
+                    renderCart(cart, "{% url 'cart:cart_detail' %}")
                 }
                 else {
                     toast({

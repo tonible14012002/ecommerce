@@ -55,17 +55,24 @@
 </div>
 
 <div id="cart-overlay"></div>
-<div id="cart-container">
-</div>
+  <section id="cart-container">
+    <div class="row" id="cart">
+
+    </div>
+    <a href="#" class="btn btn-outline-dark btn-squared" style="margin:10px 0px; width:150%;">Checkout</a>
+  </section>
 
 <script>
   var cartBtn = document.getElementById('cart-btn')
   var cart_container = document.getElementById('cart-container')
   var cart_overlay = document.getElementById('cart-overlay')
-  renderCart(cart_container, "{% url 'cart:cart_detail' %}")
+
   cartBtn.onclick = (e) => {
     e.preventDefault()
     cart_container.classList.toggle('active')
     cart_overlay.classList.toggle('active')
   }
+  
+  var cart = document.getElementById('cart')
+  renderCart(cart,"{% url 'cart:cart_detail' %}")
 </script>

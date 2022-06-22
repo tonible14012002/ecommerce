@@ -14,9 +14,9 @@ from account.decorator import ajax_required
 def cart_add(request, product_pk):
     cart = Cart(request)
     product = get_object_or_404(Product, pk=product_pk)
-    form = CartAddProductForm(request.POST)
+    form = CartAddProductForm(data=request.POST)
+
     if form.is_valid():
-        print(form.cleaned_data['quantity'])
         cart.add(
             product=product,
             quantity=form.cleaned_data['quantity'],
