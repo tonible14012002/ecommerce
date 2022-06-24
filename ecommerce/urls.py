@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from unicodedata import name
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -23,7 +24,7 @@ urlpatterns = [
     path('api/', include('api.urls', namespace='api')),
     path('account/', include('account.urls', namespace='account')),
     path('cart/', include('cart.urls', namespace='cart')),
-    
+    path('checkout/', include('checkout.urls', namespace='checkout'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

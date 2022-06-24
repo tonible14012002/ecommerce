@@ -11,13 +11,13 @@
                     {% endwith %}
                 </div>
                 <div class="ms-3">
-                    <h6>{{item.product|truncatechars:25}}</h5>
-                    <p class="small mb-0">1TB, Graphite</p>
+                    <h6><a style="text-decoration: none; color: #505050;" href="{{item.product.get_absolute_url}}">{{item.product|truncatechars:25}}</a></h5>
+                    <!-- <p class="small mb-0">1TB, Graphite</p> -->
                 </div>
             </div>
             <div class="d-flex flex-row align-items-center">
                 <div style="width: 80px;">
-                    <h6 class="mb-0">${{item.total_price}}</h5>
+                    <h6 style="color: #de6363;" class="mb-0">${{item.total_price}}</h5>
                 </div>
                 <a href="{% url 'cart:cart_remove' item.product.pk %}" class="remove-btn" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
             </div>

@@ -47,7 +47,6 @@ def get_more_products(request, category_slug=None):
         return HttpResponse('')
     return render(request, 'store/show_products.html', {'products':products})
 
-@login_required
 def product_detail(request, pk, product_slug=None):
     form = CartAddProductForm()
     product = get_object_or_404(Product, pk=pk)

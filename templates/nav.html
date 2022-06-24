@@ -37,7 +37,7 @@
                     {% if request.user.is_authenticated %}
                       <li class="dropdown-item">Welcome {{request.user.get_name}}</li>
                       <hr class="dropdown-divider">
-                      <li><a class="dropdown-item" href="{% url 'account:register' %}">Profile</a></li>
+                      <li><a class="dropdown-item" href="#">Profile</a></li>
                       <li><a class="dropdown-item" href="{% url 'account:logout' %}">Logout</a></li>
                       <li><a class="dropdown-item" href="{% url 'account:register' %}">Register</a></li>
 
@@ -47,7 +47,7 @@
                     {% endif %}
                   </ul>
               </li>
-              <li id="cart-btn" class="nav-item"><a class="nav-link" role="button">Cart</a></li>
+              <li id="cart-btn" class="nav-item dropdown"><a class="nav-link dropdown-toggle" role="button" href="#">Cart</a></li>
             </ul>
           </div>
         </div>

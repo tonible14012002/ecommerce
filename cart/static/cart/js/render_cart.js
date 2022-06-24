@@ -1,53 +1,53 @@
 var updateAddBtn = (addBtns) => addBtns.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-        e.preventDefault()
-        let formData = new FormData()
-        formData.append('quantity', '1')
-        formData.append('update', 'false')
-
-        fetchAPI({
-            url:  btn.href,
-            requestInit: {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFtoken': csrftoken,
-                    'X-Requested-With': 'XMLHttpRequest'
+        btn.onclick = (e) => {
+            e.preventDefault()
+            let formData = new FormData()
+            formData.append('quantity', '1')
+            formData.append('update', 'false')
+            console.log('hello')
+            fetchAPI({
+                url:  btn.href,
+                requestInit: {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFtoken': csrftoken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    origin: 'same-origin',
                 },
-                origin: 'same-origin',
-            },
-            onSuccess: (data) => {
-                if (data.status == 'ok'){
+                onSuccess: (data) => {
+                    if (data.status == 'ok'){
+                        toast({
+                            containerSelector: '#toast',
+                            title: 'Added',
+                            body: 'product was added to your cart',
+                            type: 'success',
+                            duration: 4000
+                        })
+                        renderCart(cart, btn.dataset.cartUrl)
+                    }
+                    else {
+                        toast({
+                            containerSelector: '#toast',
+                            title: 'Add failed',
+                            body: 'Error while adding to your cart',
+                            type: 'error',
+                            duration: 4000
+                        })
+                    }
+                },
+                onError: (error) => {
                     toast({
                         containerSelector: '#toast',
-                        title: 'Added',
-                        body: 'product was added to your cart',
-                        type: 'success',
-                        duration: 9000
-                    })
-                    renderCart(cart, btn.dataset.cartUrl)
-                }
-                else {
-                    toast({
-                        containerSelector: '#toast',
-                        title: 'Add failed',
-                        body: 'Error while adding to your cart',
+                        title: error.status || 'error',
+                        body: error.statusText || error,
                         type: 'error',
-                        duration: 9000
+                        duration: 4000
                     })
                 }
-            },
-            onError: (error) => {
-                toast({
-                    containerSelector: '#toast',
-                    title: error.status || 'error',
-                    body: error.statusText || error,
-                    type: 'error',
-                    duration: 5000
-                })
-            }
-        })
-    })
+            })
+        }
 })
 
 var updateRemoveBtn = (removeBtns) => removeBtns.forEach((btn) => {
