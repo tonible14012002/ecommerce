@@ -1,14 +1,4 @@
-::-webkit-scrollbar{
-    width: 5px;
-}
-::-webkit-scrollbar-track{
-    background: white;
-}
 
-::-webkit-scrollbar-thumb{
-    width: 5px;
-    background: grey;
-}
 
 #cart-container {
     position: fixed;

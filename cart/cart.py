@@ -1,9 +1,6 @@
-from cgi import print_exception
 from decimal import Decimal
-from operator import itemgetter
-from os import symlink
 from django.conf import settings
-from django.forms import SelectDateWidget
+
 
 from store.models import Product
 

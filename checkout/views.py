@@ -1,7 +1,10 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-
+from cart.cart import Cart
 # Create your views here.
 
 def checkout(request):
-    return HttpResponse("checkout page")
+    context = {}
+    cart = Cart(request)
+    return HttpResponse('fixing')
+
