@@ -1,0 +1,8 @@
+{% extends 'checkout/main.html' %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+
+{% include 'checkout/cart_detail.html' with cart=cart %}
+
+{% endblock %}

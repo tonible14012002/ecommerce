@@ -23,7 +23,14 @@ class Cart():
         else:
             self.cart[product_pk]['quantity'] = quantity
         self.save()
-    
+
+    def quantity(self, product):
+        product_pk = str(product.pk)
+        if product_pk not in self.cart:
+            return 0
+        else:
+            return self.cart[product_pk]['quantity']
+
     def save(self):
         self.session[settings.CART_SESSION_ID] = self.cart
         self.session.modified = True

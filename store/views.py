@@ -48,8 +48,8 @@ def get_more_products(request, category_slug=None):
     return render(request, 'store/show_products.html', {'products':products})
 
 def product_detail(request, pk, product_slug=None):
-    form = CartAddProductForm()
     product = get_object_or_404(Product, pk=pk)
+    form = CartAddProductForm()
     return render(request, 'store/product_detail.html',{'product':product, 'form':form})
 
 

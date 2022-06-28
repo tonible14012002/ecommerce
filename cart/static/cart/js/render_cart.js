@@ -4,7 +4,6 @@ var updateAddBtn = (addBtns) => addBtns.forEach((btn) => {
             let formData = new FormData()
             formData.append('quantity', '1')
             formData.append('update', 'false')
-            console.log('hello')
             fetchAPI({
                 url:  btn.href,
                 requestInit: {
@@ -53,7 +52,6 @@ var updateAddBtn = (addBtns) => addBtns.forEach((btn) => {
 var updateRemoveBtn = (removeBtns) => removeBtns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         e.preventDefault()
-
         fetchAPI({
             url:  btn.href,
             requestInit: {
@@ -65,7 +63,7 @@ var updateRemoveBtn = (removeBtns) => removeBtns.forEach((btn) => {
                 origin: 'same-origin',
             },
             onSuccess: (data) => {
-                btn.closest('.cart-item').remove()
+                btn.closest('.cart-item').remove() 
             },
             onError: (error) => {
                 toast({
@@ -108,3 +106,4 @@ function renderCart(cart, url) {
         }
     })    
 }
+

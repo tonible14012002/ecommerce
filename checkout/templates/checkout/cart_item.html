@@ -1,0 +1,34 @@
+{% load static %}
+<div class="row mb-4 d-flex justify-content-between align-items-center cart-item">
+    <div class="col-md-2 col-lg-2 col-xl-2">
+        {% with product=item.product %}
+      <img
+        src="{% if product.photo %}{{item.product.photo.url}}{% else %}{% static 'store/images/no-image.jpg' %}{% endif %}"
+        class="img-fluid rounded-3" alt="Cotton T-shirt">
+        {% endwith %}
+    </div>
+    <div class="col-md-3 col-lg-3 col-xl-3">
+      <h6 class="text-muted"></h6>
+      <h5 style="font-weight: 800;" class="text-black mb-0"><a href="{{item.product.get_absolute_url }}">{{item.product|truncatechars:35}}</a></h5>
+    </div>
+    <form class="col-md-3 col-lg-3 col-xl-2 d-flex">    
+      <a data-action="remove" href="{% url 'cart:cart_add' item.product.pk %}" class="btn btn-link px-2 cart-btn">
+        <i class="fas fa-minus"></i>
+      </a>
+
+      <input id="form1" min="0" max="21" name="quantity" value="{{item.quantity}}" type="number"
+        class="form-control form-control-sm" />
+
+      <a data-action="add" href="{% url 'cart:cart_add' item.product.pk %}" class="btn btn-link px-2 cart-btn">
+        <i class="fas fa-plus"></i>
+      </a>
+    </form>
+    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+      <h6 data-price="{{item.product.price}}" class="mb-0 price">$ {{item.total_price}}</h6>
+    </div>
+    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+      <a href="{% url 'cart:cart_remove' item.product.pk %}" class="remove-btn" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
+    </div>
+    <hr class="my-4 dashline">
+  </div>
+
