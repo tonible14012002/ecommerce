@@ -111,3 +111,19 @@ function createDirectionBoard(options = {
         replaceElement: alertMessage
     })
 }
+
+
+function toastErrors(formErrors) {
+    var errors = Object.keys(formErrors)
+    errors.forEach(error => {
+        formErrors[error].forEach((msg)=>{
+            toast({
+                containerSelector: '#toast',
+                title: 'Add failed',
+                body: msg,
+                type: 'error',
+                duration: 4000
+            })                                         
+        })
+    })
+}

@@ -7,6 +7,9 @@ from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from pkg_resources import require
+from cart.cart import Cart
+
+from cart.views import cart_add
 from .models import *
 from account.decorator import ajax_required
 from django.views.decorators.http import require_http_methods
@@ -49,7 +52,8 @@ def get_more_products(request, category_slug=None):
 
 def product_detail(request, pk, product_slug=None):
     product = get_object_or_404(Product, pk=pk)
-    form = CartAddProductForm()
+    cart = Cart(request)
+    form = CartAddProductForm(stock=product.stock,cart_quantity=cart.quantity(product))
     return render(request, 'store/product_detail.html',{'product':product, 'form':form})
 
 

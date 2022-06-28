@@ -5,22 +5,23 @@ updateRemoveBtn(cartRemoveBtn)
 cartBtn.forEach((btn) => {
     btn.onclick = (e) => {
         e.preventDefault()
+        // disable btn while fetch api
         var form = btn.closest('form')
         form.classList.toggle('form-disabled')
 
         var inputElement = form.querySelector('input')
     
         var formData = new FormData()
-        if (btn.dataset.action == "add"){
+        var action = btn.dataset.action
+
+        if (action == "add"){
             var step = "stepUp"
             formData.append('quantity', String(Number(inputElement.value)+1))
         }
         else {
-
             var step = "stepDown" 
             formData.append('quantity', String(Number(inputElement.value)-1))
         }
-
         formData.append('update', 'true')
 
         fetchAPI({
@@ -37,33 +38,21 @@ cartBtn.forEach((btn) => {
             onSuccess: (data)=>{
                 if(data.status == 'ok'){
                     inputElement = btn.parentNode.querySelector('input[type=number]')
-                    if (inputElement.value <= 0)
+            
+                    btn.parentNode.querySelector('input[type=number]')[step]()
+                    if (inputElement.value == 0)
                         btn.closest('.cart-item').remove()
-                    else
-                        btn.parentNode.querySelector('input[type=number]')[step]()
+                    else {
                         let priceElement = btn.closest('.cart-item').querySelector('.price')
-                        priceElement.innerText = `$ ${(Number(priceElement.dataset.price) * Number(inputElement.value)).toFixed(3)}`
+                        priceElement.innerText = `$ ${(Number(priceElement.dataset.price) * Number(inputElement.value)).toFixed(3)}`                        
+                    }
                 }
-                else if (inputElement.value == '1'){
-                    toast({
-                        containerSelector: '#toast',
-                        title: 'Add failed',
-                        body: 'item quantity must be above 1',
-                        type: 'alert',
-                        duration: 4000
-                    })
+                else {
+                    toastErrors(data.errors)
                 }
-                else if (inputElement.value == '21'){
-                    toast({
-                        containerSelector: '#toast',
-                        title: 'Add failed',
-                        body: 'item quantity must be below 21',
-                        type: 'alert',
-                        duration: 4000
-                    })
-                }
-                form.classList.toggle('form-disabled')
             }
         })
+        // enable btn
+        form.classList.toggle('form-disabled')
     }
 })

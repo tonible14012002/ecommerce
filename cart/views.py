@@ -1,4 +1,5 @@
 
+from django import forms
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404, render
@@ -14,8 +15,11 @@ from account.decorator import ajax_required
 def cart_add(request, product_pk):
     cart = Cart(request)
     product = get_object_or_404(Product, pk=product_pk)
-    form = CartAddProductForm(data=request.POST)
-
+    form = CartAddProductForm(
+        request.POST,
+        stock=product.stock,
+        cart_quantity=cart.quantity(product)
+    )
     if form.is_valid():
         cart.add(
             product=product,
@@ -23,13 +27,12 @@ def cart_add(request, product_pk):
             update_quantity=form.cleaned_data['update']
         )
         return JsonResponse({'status':'ok'})
-    else:
-        return JsonResponse({'status':'error'})
+    return JsonResponse({'status':'error', 'errors': form.errors})
 
 @ajax_required
 def cart_remove(request, product_pk):
-    cart = Cart(request)
     product = get_object_or_404(Product, pk=product_pk)
+    cart = Cart(request)
     cart.remove(product)
     return JsonResponse({'status':'ok'})
 

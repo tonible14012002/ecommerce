@@ -33,7 +33,7 @@
     var formData = new FormData()
     form.onsubmit = (e) => {
         e.preventDefault()
-        formData.append('quantity', form.querySelector('input[name="quantity"]').value)
+        formData.append('quantity', form.querySelector('select[name="quantity"]').value)
         formData.append('update', form.querySelector('input[name="update"]').value)
         fetchAPI({
             url:  "{% url 'cart:cart_add' product.pk %}",
@@ -58,13 +58,7 @@
                     renderCart(cart, "{% url 'cart:cart_detail' %}")
                 }
                 else {
-                    toast({
-                        containerSelector: '#toast',
-                        title: 'Add failed',
-                        body: 'Error while adding to your cart',
-                        type: 'error',
-                        duration: 4000
-                    })
+                    toastErrors(data.errors)
                 }
             },
             onError: (error) => {

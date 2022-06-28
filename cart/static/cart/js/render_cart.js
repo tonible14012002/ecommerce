@@ -27,13 +27,7 @@ var updateAddBtn = (addBtns) => addBtns.forEach((btn) => {
                         renderCart(cart, btn.dataset.cartUrl)
                     }
                     else {
-                        toast({
-                            containerSelector: '#toast',
-                            title: 'Add failed',
-                            body: 'Error while adding to your cart',
-                            type: 'error',
-                            duration: 4000
-                        })
+                        toastErrors(data.errors)
                     }
                 },
                 onError: (error) => {
