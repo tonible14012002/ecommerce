@@ -1,6 +1,7 @@
 from multiprocessing.reduction import steal_handle
 from django.db import models
 from django.forms import SelectDateWidget
+from pkg_resources import require
 from store.models import Product
 # Create your models here.
 class Order(models.Model):
@@ -14,6 +15,7 @@ class Order(models.Model):
 
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    phone = models.CharField(blank=True, null=True, max_length=15)
     email = models.EmailField()
     address = models.CharField(max_length=250)
     postal_code = models.CharField(max_length=20)

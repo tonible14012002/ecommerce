@@ -21,23 +21,40 @@
                     </div>
   
                     <h5 class="text-uppercase mb-3">Give code</h5>
-  
-                    <div class="mb-5">
-                      <div class="form-outline">
-                        <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
-                        <label class="form-label" for="form3Examplea2">Enter your code</label>
+                    <form id="checkout-form" method="GET">
+                      <div class="mb-5">
+                        <div class="form-outline">
+                          <div class="form__group">
+                            <input type="text" id="id_coupon_code" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Examplea2">Enter your code</label>
+                            <span class="form__message"></span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-  
-                    <hr class="my-4">
-  
-                    <div class="d-flex justify-content-between mb-5">
-                      <h5 class="text-uppercase">Total price</h5>
-                      <h5>€ 137.00</h5>
-                    </div>
-  
-                    <button type="button" class="btn btn-block btn-lg"
-                    style="width: 100%; color: white; background-color: #de6363;">Register</button>
-  
+    
+                      <hr class="my-4">
+                      
+                      <div class="d-flex justify-content-between mb-5">
+                        <h5 class="text-uppercase">Total price</h5>
+                        <h5>€ 137.00</h5>
+                      </div>
+    
+                      <button type="submit" class="btn btn-block btn-lg form__button"
+                      style="width: 100%; color: white; background-color: #de6363;">Checkout</button>
+                    </form>
                   </div>
                 </div>
+
+<script>
+  validator({
+    formSelector:'#checkout-form',
+    errorSelector:'.form__message',
+    errorClass: 'invalid',
+    ruleOptions: [
+    ],
+    onSubmit: (data) => {
+      let url = "{% url 'checkout:order_detail' %}"
+      window.location.replace(url)
+    }
+  })
+</script>

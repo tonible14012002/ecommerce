@@ -1,0 +1,20 @@
+{% extends 'checkout/main.html' %}
+
+{% block title %}Order detail{% endblock %}
+{% block content %}
+<div class="form-container">
+            <form method="POST" id="login-form" class="form" style="max-width: 600px;">
+                {% csrf_token %}
+                <h1 class="form__title">Shipping detail</h1>
+                {% for field in form %}
+                <div class="form__group">
+                    <label for="{{field.id_for_label}}">{{field.label}}</label>
+                    <input id="{{field.id_for_label}}" type="{{field.field.widget.input_type}}" name="{{field.name}}">
+                    <span class="form__message"></span>
+                    <span class="form__error"></span>
+                </div>
+                {% endfor %}
+                <button type="submit" class="form__button" id="form__login">Place order</button>
+            </form>
+</div>
+{% endblock %}
