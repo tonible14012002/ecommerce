@@ -10,9 +10,8 @@
   }
 
 .boldline{
-    margin:5px 10px;
-    height:2px;
-    outline: solid 2px rgb(64, 64, 64);
+    height:1px;
+    outline: solid 1px rgb(64, 64, 64);
     opacity: 1;
       /*10px red then 2px transparent -> repeat this!*/
   }

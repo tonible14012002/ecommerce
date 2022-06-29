@@ -2,9 +2,9 @@
 
 {% block title %}Order detail{% endblock %}
 {% block content %}
-<div style="display: grid; grid-template-columns: 3fr 2fr;">
-        <div class="form-container" id="order-form-container">
-                    <form method="POST" id="order-form" class="form" style="max-width: 600px;">
+<div id="order-container">
+
+                    <form method="POST" id="order-form" class="form">
                         {% csrf_token %}
                         <h1 class="form__title">Shipping detail</h1>
                         {% for field in form %}
@@ -17,56 +17,77 @@
                         {% endfor %}
                         <button type="submit" class="form__button" id="form__login">Place order</button>
                     </form>
-        </div>
 
-        <div class="cart-summary">
-            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 main-cart-right">
-                <ul class="list-group">
-                    <li class="list-group-item title">ORDER</li>
-                    {% for item in cart %}
-                    <hr class="boldline">
-                    <li class="list-group-item text-1">
-                            <span class="title-6">{{item.product|truncatechars:25}}</span>
-                            <span class="title-6-1">${{item.price}}</span>
-                    </li>
-                    <li class="list-group-item text-1-1">
-                        <span class="title-6-3">x{{item.quantity}}</span>
-                    </li>
-                    {% endfor %}
-                    <li class="list-group-item divider-1"></li>
-                    <li class="list-group-item text-1">
-                        <span class="title-3">Đơn hàng</span>
-                        <span class="title-3-1">$<span
-                            class="current-price">{{cart.total_price}}</span></span>
-                    </li>
-                    <li class="list-group-item text-2-2">
-                        <span class="title-3">Discount</span>
-                        <span class="title-4-1">- <span
-                                class="discount">$0</span></span>
-                    </li>
-                    <li class="list-group-item text-2-3">
-                        <span class="title-21">Phí vận chuyển</span>
-                        <span class="title-22">$ <span class="shipping-fee">0</span></span>
-                    </li>
-                    <li class="list-group-item text-2-3">
-                        <span class="title-21">Phí thanh toán</span>
-                        <span class="title-22"><span class="card-fee">0</span> VND</span>
-                    </li>
+        <div id="cart-summarize">
+            <h3 class="cart__title">ORDER</h3>
+            
+            <ul class="list__group">
+                <hr class="boldline">
+                <li class="group__item">
+                    <span class="item important">Urbas Irrelevant NE - Low Top - Storm/A.Gold</span>
+                    <span class="item__detail">650.000 VND</span>
+                </li>
+                <li class="group__item">
+                    <span class="item">Size: 40</span>
+                    <span class="item__detail">x 6</span>
+                </li>
+    
+                <hr class="pseudoline">
+    
+                <li class="group__item">
+                    <span class="item important">Urbas Kimiasde NE - Low Top - Storm/A.Gold</span>
+                    <span class="item__detail">650.000 VND</span>
+                </li>
+                <li class="group__item">
+                    <span class="item">Size: 45</span>
+                    <span class="item__detail">x 8</span>
+                </li>
+                <hr class="pseudoline">
+                <hr class="dashline">
+                <hr class="pseudoline">
 
-                    <li class="list-group-item divider-1"></li>
-                    <li class="list-group-item">
-                        <span class="title-5">TOTAL</span>
-                        <span class="title-5-2"><span
-                                class="total-price">$ {{cart.total_price}}</span></span>
-                    </li>
-                    <li class="list-group-item">
-                        <button
-                                data-href="https://ananas.vn/order-completed/"
-                                class="btn btn-cart btn-complete-detail ">PLACE ORDER
-                        </button>
-                    </li>
-                </ul>
-            </div>
+                <li class="group__item">
+                    <span class="item">Cart total</span>
+                    <span class="item__detail important">4.123.000 VND</span>
+                </li>
+    
+                <li class="group__item">
+                    <span class="item">Discount</span>
+                    <span class="item__detail">43.000 VND</span>
+                </li>
+    
+                <li class="group__item">
+                    <span class="item important">Shipping cost</span>
+                    <span class="item__detail important">0 VND</span>
+                </li>
+                <hr class="pseudoline">
+                <hr class="dashline">
+                <hr class="pseudoline">
+                <hr class="pseudoline">
+
+                
+                <li class="group__item">
+                    <span class="item important" style="font-size: 25px;">Total cost</span>
+                    <span class="item__detail totalcost" style="font-size: 25px;">5.334.000 VND</span>
+                </li>
+    
+            </ul>
+
         </div>
+    
 </div>
+
+<script>
+    validator({
+                formSelector:'#order-form',
+                errorSelector:'.form__message',
+                errorClass: 'invalid',
+                ruleOptions: [
+                    validator.isRequired('#id_first_name', 'This field is required'),
+                    validator.isRequired('#id_last_name', 'This field is required'),
+                    validator.minLength('#id_phone', 8, 'At least 8 character length'),
+                    validator.isRequired('#id_phone', 'This field is requuired'),
+                ],
+    })
+</script>
 {% endblock %}
