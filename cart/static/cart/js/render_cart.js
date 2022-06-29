@@ -46,6 +46,8 @@ var updateAddBtn = (addBtns) => addBtns.forEach((btn) => {
 var updateRemoveBtn = (removeBtns) => removeBtns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         e.preventDefault()
+        var item = btn.closest('.cart-item')
+        item.classList.add('disabled')
         fetchAPI({
             url:  btn.href,
             requestInit: {
@@ -67,6 +69,7 @@ var updateRemoveBtn = (removeBtns) => removeBtns.forEach((btn) => {
                     type: 'error',
                     duration: 5000
                 })
+                item.classList.remove('disabled')
             }
         })
     })
@@ -101,3 +104,6 @@ function renderCart(cart, url) {
     })    
 }
 
+function renderCheckout(cart, url){
+    
+}

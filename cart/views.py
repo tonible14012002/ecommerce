@@ -1,4 +1,5 @@
 
+from time import sleep
 from django import forms
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
@@ -13,6 +14,7 @@ from account.decorator import ajax_required
 @ajax_required
 @require_http_methods(['POST'])
 def cart_add(request, product_pk):
+    sleep(0.5)
     cart = Cart(request)
     product = get_object_or_404(Product, pk=product_pk)
     form = CartAddProductForm(
@@ -31,6 +33,7 @@ def cart_add(request, product_pk):
 
 @ajax_required
 def cart_remove(request, product_pk):
+    sleep(0.5)
     product = get_object_or_404(Product, pk=product_pk)
     cart = Cart(request)
     cart.remove(product)

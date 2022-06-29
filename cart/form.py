@@ -21,6 +21,9 @@ class CartAddProductForm(forms.Form):
         update_quantity = self.cleaned_data['update']
         if update_quantity and q > self.stock:
             raise forms.ValidationError(f'There are only {self.stock} left in stock')
-        if not update_quantity and q > self.stock - self.cart_quantity:
-            raise forms.ValidationError(f'There are only {self.stock - self.cart_quantity} left in stock')
+        if not update_quantity:
+            if q == 0:
+                raise forms.ValidationError('Quantity must be more than 0')
+            if q > self.stock - self.cart_quantity:
+                raise forms.ValidationError(f'There are only {self.stock - self.cart_quantity} left in stock')
         return q
