@@ -2,19 +2,71 @@
 
 {% block title %}Order detail{% endblock %}
 {% block content %}
-<div class="form-container">
-            <form method="POST" id="login-form" class="form" style="max-width: 600px;">
-                {% csrf_token %}
-                <h1 class="form__title">Shipping detail</h1>
-                {% for field in form %}
-                <div class="form__group">
-                    <label for="{{field.id_for_label}}">{{field.label}}</label>
-                    <input id="{{field.id_for_label}}" type="{{field.field.widget.input_type}}" name="{{field.name}}">
-                    <span class="form__message"></span>
-                    <span class="form__error"></span>
-                </div>
-                {% endfor %}
-                <button type="submit" class="form__button" id="form__login">Place order</button>
-            </form>
+<div style="display: grid; grid-template-columns: 3fr 2fr;">
+        <div class="form-container" id="order-form-container">
+                    <form method="POST" id="order-form" class="form" style="max-width: 600px;">
+                        {% csrf_token %}
+                        <h1 class="form__title">Shipping detail</h1>
+                        {% for field in form %}
+                        <div class="form__group">
+                            <label for="{{field.id_for_label}}">{{field.label}}</label>
+                            <input id="{{field.id_for_label}}" type="{{field.field.widget.input_type}}" name="{{field.name}}">
+                            <span class="form__message"></span>
+                            <span class="form__error"></span>
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="form__button" id="form__login">Place order</button>
+                    </form>
+        </div>
+
+        <div class="cart-summary">
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 main-cart-right">
+                <ul class="list-group">
+                    <li class="list-group-item title">ORDER</li>
+                    {% for item in cart %}
+                    <hr class="boldline">
+                    <li class="list-group-item text-1">
+                            <span class="title-6">{{item.product|truncatechars:25}}</span>
+                            <span class="title-6-1">${{item.price}}</span>
+                    </li>
+                    <li class="list-group-item text-1-1">
+                        <span class="title-6-3">x{{item.quantity}}</span>
+                    </li>
+                    {% endfor %}
+                    <li class="list-group-item divider-1"></li>
+                    <li class="list-group-item text-1">
+                        <span class="title-3">Đơn hàng</span>
+                        <span class="title-3-1">$<span
+                            class="current-price">{{cart.total_price}}</span></span>
+                    </li>
+                    <li class="list-group-item text-2-2">
+                        <span class="title-3">Discount</span>
+                        <span class="title-4-1">- <span
+                                class="discount">$0</span></span>
+                    </li>
+                    <li class="list-group-item text-2-3">
+                        <span class="title-21">Phí vận chuyển</span>
+                        <span class="title-22">$ <span class="shipping-fee">0</span></span>
+                    </li>
+                    <li class="list-group-item text-2-3">
+                        <span class="title-21">Phí thanh toán</span>
+                        <span class="title-22"><span class="card-fee">0</span> VND</span>
+                    </li>
+
+                    <li class="list-group-item divider-1"></li>
+                    <li class="list-group-item">
+                        <span class="title-5">TOTAL</span>
+                        <span class="title-5-2"><span
+                                class="total-price">$ {{cart.total_price}}</span></span>
+                    </li>
+                    <li class="list-group-item">
+                        <button
+                                data-href="https://ananas.vn/order-completed/"
+                                class="btn btn-cart btn-complete-detail ">PLACE ORDER
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
 </div>
 {% endblock %}

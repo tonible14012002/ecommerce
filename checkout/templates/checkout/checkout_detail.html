@@ -21,7 +21,8 @@
                     </div>
   
                     <h5 class="text-uppercase mb-3">Give code</h5>
-                    <form id="checkout-form" method="GET">
+                    <form id="checkout-form" method="POST" >
+                      {% csrf_token %}
                       <div class="mb-5">
                         <div class="form-outline">
                           <div class="form__group">
@@ -39,7 +40,7 @@
                         <h5>€ 137.00</h5>
                       </div>
     
-                      <button type="submit" class="btn btn-block btn-lg form__button"
+                      <button  type="submit" class="btn btn-block btn-lg form__button"
                       style="width: 100%; color: white; background-color: #de6363;">Checkout</button>
                     </form>
                   </div>
@@ -51,10 +52,6 @@
     errorSelector:'.form__message',
     errorClass: 'invalid',
     ruleOptions: [
-    ],
-    onSubmit: (data) => {
-      let url = "{% url 'checkout:order_detail' %}"
-      window.location.replace(url)
-    }
+    ]
   })
 </script>

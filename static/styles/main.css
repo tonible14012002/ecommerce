@@ -9,6 +9,14 @@
       /*10px red then 2px transparent -> repeat this!*/
   }
 
+.boldline{
+    margin:5px 10px;
+    height:2px;
+    outline: solid 2px rgb(64, 64, 64);
+    opacity: 1;
+      /*10px red then 2px transparent -> repeat this!*/
+  }
+
 .price {
     color:#de6363;
 }
