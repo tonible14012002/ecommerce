@@ -2,13 +2,13 @@
     display: none;
 }
 
-
+#cart-summarize-container{
+    width: 40%;
+}
 #cart-summarize{
-    margin-right: 150px ;
-    margin-left: 50px;
     display: flex;
     flex-direction: column;
-
+    background-color:rgb(232, 232, 232) ;
 }
 
 .cart__title {
@@ -43,7 +43,7 @@
 }
 
 .group__item .totalcost {
-    color: rgb(255, 85, 0);
+    color: #de6363;
     font-weight: 800;
     font-size: 20px;
 }
@@ -56,13 +56,103 @@
 }
 
 /* order container */
-#order-form {
-    max-width: 100%;
-    margin-left: 150px;
-    margin-right: 50px;
-}
 
 #order-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    margin: auto;
+    gap: 50px;
+    margin: 0 50px;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+#order-container.response{
+    flex-direction: column;
+}
+
+
+/* form */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    width: 60%;
+    max-width: 700px;
+}
+
+.response .form {
+    width: 100%;
+
+}
+
+.form__title {
+    background-color: rgb(232, 232, 232);
+    font-size: 30px;
+    padding: 7px;
+    padding-left: 20px;
+}
+
+.form__group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: solid 1px grey;
+    margin: 0 20px;
+}
+
+.form__group label {
+    display: none;
+}
+
+.form__group input {
+    font-size: 16px;
+    padding: 7px 20px;
+    border: none ;
+    outline: none;
+    font-weight: 500;
+    color: rgb(43, 43, 43);
+}
+
+.form__group .form__message {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    font-weight: 700;
+    color: rgb(255, 70, 70);
+}
+
+.form__group .form__error {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    opacity: 0.6;
+    font-weight: 400;
+}
+
+.form__button {
+    margin: 0 20px;
+    padding: 25px;
+    font-size: xx-large;
+    font-weight: 700;
+    background-color: #de6363;
+    border: none;
+    color: white;
+}
+
+.form__button:hover {
+    background-color: #e25c5c;
+    cursor: pointer;
+}
+
+.form hr {
+    margin: 0 20px;
+    
+}
+
+.invalid.form__group {
+    border: solid 1px red;
 }
