@@ -19,7 +19,6 @@ from cart.form import CartAddProductForm
 def products_list(request, category_slug=None):
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
-        category_name = category.__str__()
         products = category.products.all()
     else:
         products = Product.objects.all()
@@ -29,7 +28,7 @@ def products_list(request, category_slug=None):
     page = paginator.page(1)
     products = page.object_list
 
-    context = {'products' : products, 'num_pages': paginator.num_pages, 'category_slug':category_slug, 'category_name':category_name}
+    context = {'products' : products, 'num_pages': paginator.num_pages, 'category_slug':category_slug}
     return render(request, 'store/product_list_page.html', context)
 
 @ajax_required

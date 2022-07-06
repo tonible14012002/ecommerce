@@ -24,32 +24,25 @@
                 
                 <ul class="list__group">
                     <hr class="boldline">
+                    {% for item in cart %}
                     <li class="group__item">
-                        <span class="item important">Urbas Irrelevant NE - Low Top - Storm/A.Gold</span>
-                        <span class="item__detail">650.000 VND</span>
+                        <span class="item important">{{item.product|truncatechars:30}}</span>
+                        <span class="item__detail">$ {{item.product.price}}</span>
                     </li>
                     <li class="group__item">
-                        <span class="item">Size: 40</span>
-                        <span class="item__detail">x 6</span>
+                        <span class="item">Quantity</span>
+                        <span class="item__detail">x {{item.quantity}}</span>
                     </li>
-        
+                    
                     <hr class="pseudoline">
-        
-                    <li class="group__item">
-                        <span class="item important">Urbas Kimiasde NE - Low Top - Storm/A.Gold</span>
-                        <span class="item__detail">650.000 VND</span>
-                    </li>
-                    <li class="group__item">
-                        <span class="item">Size: 45</span>
-                        <span class="item__detail">x 8</span>
-                    </li>
-                    <hr class="pseudoline">
+                    {% endfor %}
+
                     <hr class="dashline">
                     <hr class="pseudoline">
 
                     <li class="group__item">
                         <span class="item">Cart total</span>
-                        <span class="item__detail important">4.123.000 VND</span>
+                        <span class="item__detail important">$ {{cart.total_price}}</span>
                     </li>
         
                     <li class="group__item">
@@ -69,7 +62,7 @@
                     
                     <li class="group__item">
                         <span class="item important" style="font-size: 25px;">Total cost</span>
-                        <span class="item__detail totalcost" style="font-size: 25px;">5.334.000 VND</span>
+                        <span class="item__detail totalcost" style="font-size: 25px;">$ {{cart.total_price}}</span>
                     </li>
         
                 </ul>

@@ -5,7 +5,8 @@
 #cart-summarize-container{
     width: 40%;
 }
-#cart-summarize{
+
+#cart-summarize {
     display: flex;
     flex-direction: column;
     background-color:rgb(232, 232, 232) ;
@@ -29,6 +30,7 @@
     display: flex;
     justify-content: space-between;
     color: rgb(70, 70, 70);
+    gap: 100px;
 }
 
 .group__item .item,
@@ -56,14 +58,13 @@
 }
 
 /* order container */
-
 #order-container {
     display: flex;
     margin: auto;
     gap: 50px;
     margin: 0 50px;
-    justify-content: center;
     margin-bottom: 50px;
+    justify-content: center;
 }
 
 #order-container.response{
