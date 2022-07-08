@@ -22,111 +22,74 @@
                 <div id="product-menu" >
                     <div id="product-options">
                         <!-- search bar -->
-                        <form class="input-group" method="GET">
-                            <input name="price-range" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            <button class="input-group-text border-0" id="search-addon">
-                              <i class="fas fa-search"></i>
-                            </button>
-                        </form>
-
+                        {% include 'store/components/search.html' %}
+        
                         <hr class="boilline">
-                        <div class="choices__group">
-                            <h3 class="choice__title">Category</h3>
-                            {% for category in categories %}
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                    {{category}}
-                                    </label>
-                                </div>           
-                            {% endfor %}                                                 
-                        </div>
-                        <hr class="dashline">
-                        <div class="choices__group">
-                            <h3 class="choice__title">Price</h3>
-                            {% for category in categories %}
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                    <label class="form-check-label" for="flexCheckChecked">
-                                    {{category}}
-                                    </label>
-                                </div>           
-                            {% endfor %} 
-                        </div>
+                        <!-- Products filter -->
+                        {% include 'store/components/choices_filter.html' with choices=categories %}
                         <hr class="dashline">
                     </div>
 
                     <div id="products-container">
-                        <div class="row" id="products-list">
-                            {% include 'store/show_products.html' %}
-                        </div>
-                        {% if num_pages > 1 %}
-                        <div class="list-footer">
-                            <button id="more-btn" class="btn btn-outline-dark btn-rounded">More</button>
-                        </div>
-
-                        {% endif %}
                     </div>                    
                 </div>
-
-
         </div>
     </section>
 
-    {% if num_pages > 1 %}
     <script>
-        var nextPage = 2   
-        const moreBtn = document.getElementById('more-btn')
-        const productsContainer = document.getElementById('products-list')
+        var productsSection = document.querySelector('section[class="section-products"]')
+        productsSection.classList.add('disabled')
 
-        moreBtn.onclick = (e) => {
-            e.preventDefault()
-            // paginator
-            "{% if category_slug %}"
-            url = "{% url 'store:get_more_products_by_category' category_slug %}" + `?page=${nextPage}`      
-            "{% else %}"
-            url = `{% url 'store:get_more_products' %}?page=${nextPage}`
-            "{% endif %}"
+        var productsContainer = document.getElementById('products-container')
+        productsContainer.classList.add('disabled')
+        "{% if category_slug %}"
+        var url = "{% url 'store:get_product_list' category_slug=category_slug %}"
+        "{% else %}"
+        var url = "{% url 'store:get_product_list' %}"
+        "{% endif %}"
 
-            fetchAPI({
-                url: url,
-                requestInit: {
-                    method: 'GET',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                },
-                onSuccess: (data) => {
-                    if (data == ''){
-                        moreBtn.remove()
-                        // update add to cart btn for new 
-                        updateBtn(false)
-                    }
-                    else {
-                        updateBtn(true)
-                        productsContainer.insertAdjacentHTML("beforeend",data)
-                        var addBtns = [...document.getElementsByClassName('add-product-btn')]
-                        updateAddBtn(addBtns)
-                    }
-                    
-                },
-                onError: (error) => {
+        fetchAPI({
+            url: url,
+            requestInit: {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            },
+            onSuccess: (data) => {
+                if (data.html == ''){
                     toast({
                         containerSelector: '#toast',
-                        title: error.status || 'error',
-                        body: error.statusText || error,
+                        title: 'Error',
+                        body: 'Load products error, try request again',
                         type: 'error',
-                        duration: 5000
+                        duration: 5000     
                     })
                 }
-            })
-            function updateBtn(success) {
-                if (nextPage >= Number("{{num_pages}}"))
-                    moreBtn.remove()
-                if (success)
-                    nextPage += 1
+                else {
+                    productsContainer.insertAdjacentHTML("beforeend", data.html) 
+                    var addBtns = [...document.getElementsByClassName('add-product-btn')]
+                    updateAddBtn(addBtns)
+                    var script = document.createElement('script')
+                    script.innerHTML = data.script
+                    document.body.appendChild(script)
+                }
+                productsSection.classList.remove('disabled')
+                productsContainer.classList.remove('disabled')
+            },
+            onError: (error) => {
+                toast({
+                    containerSelector: '#toast',
+                    title: error.status || 'error',
+                    body: error.statusText || error,
+                    type: 'error',
+                    duration: 5000
+                })
+                productsSection.classList.remove('disabled')
+                productsContainer.classList.remove('disabled')
             }
-        }
+        })
     </script>
-    {% endif %}
+
+
 {% endblock %}

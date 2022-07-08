@@ -1,4 +1,5 @@
 {% extends 'checkout/main.html' %}
+
 {% block title %}Checkout{% endblock %}
 
 {% block content %}
@@ -9,15 +10,13 @@
         <div class="card card-registration card-registration-2" style="border: none;">
           <div class="card-body p-0">
             <div class="row g-0">
-                {% include 'checkout/cart_detail.html' with cart=cart %}
-                {% include 'checkout/checkout_detail.html' with cart=cart %}
+                {% include 'checkout/cart_detail.html' %}
+                {% include 'checkout/checkout_detail.html' %}
             </div>
           </div>
         </div>
       </div>
     </div>
 </section>
-
-
 
 {% endblock %}

@@ -30,7 +30,7 @@ class Product(models.Model):
     is_available = AvailableManager()
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('-price', '-stock')
         index_together = (('id','slug'),)
 
     def __str__(self):

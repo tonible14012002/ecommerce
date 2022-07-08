@@ -1,0 +1,66 @@
+<form id="product-search-form" class="input-group" method="GET">
+    <input name="q" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+    <button class="input-group-text border-0" id="search-addon">
+      <i class="fas fa-search"></i>
+    </button>
+</form>
+
+<script>
+
+    var form = document.getElementById('product-search-form')
+    form.onsubmit = (e) => {
+        e.preventDefault()
+        var q = form.querySelector('input[name="q"]').value
+
+        productsSection.classList.add('disabled')
+
+        "{% if category_slug %}"
+        var url = `{% url 'store:get_product_list' category_slug=category_slug %}?q=${q}`
+        "{% else %}"
+        var url = `{% url 'store:get_product_list' %}?q=${q}`
+        "{% endif %}"
+
+        fetchAPI({
+            url: url,
+            requestInit: {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            },
+            onSuccess: (data) => {
+                if (data.html == ''){
+                    toast({
+                        containerSelector: '#toast',
+                        title: 'Error',
+                        body: 'Load products error, try request again',
+                        type: 'error',
+                        duration: 5000     
+                    })
+                }
+                else {
+                    var productsContainer = document.getElementById('products-container')
+                    productsContainer.innerHTML = data.html
+                    var addBtns = [...document.getElementsByClassName('add-product-btn')]
+                    updateAddBtn(addBtns)
+                    var script = document.createElement('script')
+                    script.innerHTML = data.script
+                    document.body.appendChild(script)
+                }
+                productsSection.classList.remove('disabled')
+            },
+            onError: (error) => {
+                toast({
+                    containerSelector: '#toast',
+                    title: error.status || 'error',
+                    body: error.statusText || error,
+                    type: 'error',
+                    duration: 5000
+                })
+                productsSection.classList.remove('disabled')
+            }
+        })
+
+      }
+
+</script>

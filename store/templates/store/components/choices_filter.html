@@ -1,0 +1,11 @@
+<div class="choices__group">
+    <h3 class="choice__title">Price</h3>
+    {% for choice in choices %}
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+            <label class="form-check-label" for="flexCheckChecked">
+            {{choice}}
+            </label>
+        </div>           
+    {% endfor %} 
+</div>
